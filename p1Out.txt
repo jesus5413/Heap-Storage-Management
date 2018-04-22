@@ -1,0 +1,925 @@
+* Initialize the Heap
+>>> RESET 600
+INITIALIZE:
+                    Heap Size:   600
+            Minimum Node Size:    26
+             Prefix Node Size:     3
+            Tot Overhead Size:     5
+
+>>> PRTALL
+	Begin Address is 0x1145070
+	Free List Address is 0x1145070
+	Minimum Amount is 26
+	Address  Mem   Size
+	01145070 Free   600 End Size= 600
+			   Prev=00000000,Next=00000000
+
+
+>>> ALLOC 100 FIRST FIRST 100
+
+* #1 Show the one allocated and one free node
+>>> PRTALL
+	Begin Address is 0x1145070
+	Free List Address is 0x11450d9
+	Minimum Amount is 26
+	Address  Mem   Size
+	01145070 Alloc  105 End Size= 105
+			   01145073 F  I  R  S  T     1  0  0  .  .  .  .  .  .  .  .  .  .  .  
+			            46 49 52 53 54 20 31 30 30 00 00 00 00 00 00 00 00 00 00 00 
+			   01145087 thru 011450D6 (4 lines) suppressed - all zero
+			   011450D7 i  .  
+			            69 00 
+	011450D9 Free   495 End Size= 495
+			   Prev=00000000,Next=00000000
+
+
+>>> ALLOC 50  SECOND SECOND 50
+
+* #2 Show the two allocated and the now smaller free node
+>>> PRTALL
+	Begin Address is 0x1145070
+	Free List Address is 0x1145110
+	Minimum Amount is 26
+	Address  Mem   Size
+	01145070 Alloc  105 End Size= 105
+			   01145073 F  I  R  S  T     1  0  0  .  .  .  .  .  .  .  .  .  .  .  
+			            46 49 52 53 54 20 31 30 30 00 00 00 00 00 00 00 00 00 00 00 
+			   01145087 thru 011450D6 (4 lines) suppressed - all zero
+			   011450D7 i  .  
+			            69 00 
+	011450D9 Alloc   55 End Size=  55
+			   011450DC S  E  C  O  N  D     5  0  .  .  .  .  .  .  .  .  .  .  .  
+			            53 45 43 4F 4E 44 20 35 30 00 00 00 00 00 00 00 00 00 00 00 
+			   011450F0 thru 01145103 (1 lines) suppressed - all zero
+			   01145104 .  .  .  .  .  .  .  .  .  .  7  .  
+			            00 00 00 00 00 00 00 00 00 00 37 00 
+	01145110 Free   440 End Size= 440
+			   Prev=00000000,Next=00000000
+
+
+>>> ALLOC 100 THIRD THIRD 100
+
+>>> ALLOC 50 FOURTH FOURTH 50
+
+>>> ALLOC 50 FIFTH FIFTH 50
+
+>>> ALLOC 40 SIXTH SIXTH 40
+
+>>> ALLOC 100 7TH 7TH 100
+
+>>> ALLOC 40 8TH 8TH 40
+
+>>> ALLOC 40 9TH 9TH 40
+	!!! Memory not allocated
+		smAllocate rc=-1, There was no alloc
+
+* #3 Show all the nodes that were successfully allocated followed by one small free node
+>>> PRTALL
+	Begin Address is 0x1145070
+	Free List Address is 0x11452aa
+	Minimum Amount is 26
+	Address  Mem   Size
+	01145070 Alloc  105 End Size= 105
+			   01145073 F  I  R  S  T     1  0  0  .  .  .  .  .  .  .  .  .  .  .  
+			            46 49 52 53 54 20 31 30 30 00 00 00 00 00 00 00 00 00 00 00 
+			   01145087 thru 011450D6 (4 lines) suppressed - all zero
+			   011450D7 i  .  
+			            69 00 
+	011450D9 Alloc   55 End Size=  55
+			   011450DC S  E  C  O  N  D     5  0  .  .  .  .  .  .  .  .  .  .  .  
+			            53 45 43 4F 4E 44 20 35 30 00 00 00 00 00 00 00 00 00 00 00 
+			   011450F0 thru 01145103 (1 lines) suppressed - all zero
+			   01145104 .  .  .  .  .  .  .  .  .  .  7  .  
+			            00 00 00 00 00 00 00 00 00 00 37 00 
+	01145110 Alloc  105 End Size= 105
+			   01145113 T  H  I  R  D     1  0  0  .  .  .  .  .  .  .  .  .  .  .  
+			            54 48 49 52 44 20 31 30 30 00 00 00 00 00 00 00 00 00 00 00 
+			   01145127 thru 01145176 (4 lines) suppressed - all zero
+			   01145177 i  .  
+			            69 00 
+	01145179 Alloc   55 End Size=  55
+			   0114517C F  O  U  R  T  H     5  0  .  .  .  .  .  .  .  .  .  .  .  
+			            46 4F 55 52 54 48 20 35 30 00 00 00 00 00 00 00 00 00 00 00 
+			   01145190 thru 011451A3 (1 lines) suppressed - all zero
+			   011451A4 .  .  .  .  .  .  .  .  .  .  7  .  
+			            00 00 00 00 00 00 00 00 00 00 37 00 
+	011451B0 Alloc   55 End Size=  55
+			   011451B3 F  I  F  T  H     5  0  .  .  .  .  .  .  .  .  .  .  .  .  
+			            46 49 46 54 48 20 35 30 00 00 00 00 00 00 00 00 00 00 00 00 
+			   011451C7 thru 011451DA (1 lines) suppressed - all zero
+			   011451DB .  .  .  .  .  .  .  .  .  .  7  .  
+			            00 00 00 00 00 00 00 00 00 00 37 00 
+	011451E7 Alloc   45 End Size=  45
+			   011451EA S  I  X  T  H     4  0  .  .  .  .  .  .  .  .  .  .  .  .  
+			            53 49 58 54 48 20 34 30 00 00 00 00 00 00 00 00 00 00 00 00 
+			   011451FE thru 01145211 (1 lines) suppressed - all zero
+			   01145212 -  .  
+			            2D 00 
+	01145214 Alloc  105 End Size= 105
+			   01145217 7  T  H     1  0  0  .  .  .  .  .  .  .  .  .  .  .  .  .  
+			            37 54 48 20 31 30 30 00 00 00 00 00 00 00 00 00 00 00 00 00 
+			   0114522B thru 0114527A (4 lines) suppressed - all zero
+			   0114527B i  .  
+			            69 00 
+	0114527D Alloc   45 End Size=  45
+			   01145280 8  T  H     4  0  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
+			            38 54 48 20 34 30 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+			   01145294 thru 011452A7 (1 lines) suppressed - all zero
+			   011452A8 -  .  
+			            2D 00 
+	011452AA Free    30 End Size=  30
+			   Prev=00000000,Next=00000000
+
+
+>>> PRTFREE
+	Begin Address is 0x1145070
+	Free List Address is 0x11452aa
+	Minimum Amount is 26
+	Address  Size Prev     Next     End Size
+	011452AA   30 00000000 00000000   30
+	***Total   30
+
+* Start freeing some nodes
+>>> FREE FOURTH
+		Combined free amount is 55
+
+* #4 Show the allocated nodes and two free nodes
+>>> PRTALL
+	Begin Address is 0x1145070
+	Free List Address is 0x1145179
+	Minimum Amount is 26
+	Address  Mem   Size
+	01145070 Alloc  105 End Size= 105
+			   01145073 F  I  R  S  T     1  0  0  .  .  .  .  .  .  .  .  .  .  .  
+			            46 49 52 53 54 20 31 30 30 00 00 00 00 00 00 00 00 00 00 00 
+			   01145087 thru 011450D6 (4 lines) suppressed - all zero
+			   011450D7 i  .  
+			            69 00 
+	011450D9 Alloc   55 End Size=  55
+			   011450DC S  E  C  O  N  D     5  0  .  .  .  .  .  .  .  .  .  .  .  
+			            53 45 43 4F 4E 44 20 35 30 00 00 00 00 00 00 00 00 00 00 00 
+			   011450F0 thru 01145103 (1 lines) suppressed - all zero
+			   01145104 .  .  .  .  .  .  .  .  .  .  7  .  
+			            00 00 00 00 00 00 00 00 00 00 37 00 
+	01145110 Alloc  105 End Size= 105
+			   01145113 T  H  I  R  D     1  0  0  .  .  .  .  .  .  .  .  .  .  .  
+			            54 48 49 52 44 20 31 30 30 00 00 00 00 00 00 00 00 00 00 00 
+			   01145127 thru 01145176 (4 lines) suppressed - all zero
+			   01145177 i  .  
+			            69 00 
+	01145179 Free    55 End Size=  55
+			   Prev=00000000,Next=011452AA
+	011451B0 Alloc   55 End Size=  55
+			   011451B3 F  I  F  T  H     5  0  .  .  .  .  .  .  .  .  .  .  .  .  
+			            46 49 46 54 48 20 35 30 00 00 00 00 00 00 00 00 00 00 00 00 
+			   011451C7 thru 011451DA (1 lines) suppressed - all zero
+			   011451DB .  .  .  .  .  .  .  .  .  .  7  .  
+			            00 00 00 00 00 00 00 00 00 00 37 00 
+	011451E7 Alloc   45 End Size=  45
+			   011451EA S  I  X  T  H     4  0  .  .  .  .  .  .  .  .  .  .  .  .  
+			            53 49 58 54 48 20 34 30 00 00 00 00 00 00 00 00 00 00 00 00 
+			   011451FE thru 01145211 (1 lines) suppressed - all zero
+			   01145212 -  .  
+			            2D 00 
+	01145214 Alloc  105 End Size= 105
+			   01145217 7  T  H     1  0  0  .  .  .  .  .  .  .  .  .  .  .  .  .  
+			            37 54 48 20 31 30 30 00 00 00 00 00 00 00 00 00 00 00 00 00 
+			   0114522B thru 0114527A (4 lines) suppressed - all zero
+			   0114527B i  .  
+			            69 00 
+	0114527D Alloc   45 End Size=  45
+			   01145280 8  T  H     4  0  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
+			            38 54 48 20 34 30 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+			   01145294 thru 011452A7 (1 lines) suppressed - all zero
+			   011452A8 -  .  
+			            2D 00 
+	011452AA Free    30 End Size=  30
+			   Prev=01145179,Next=00000000
+
+
+>>> PRTFREE
+	Begin Address is 0x1145070
+	Free List Address is 0x1145179
+	Minimum Amount is 26
+	Address  Size Prev     Next     End Size
+	01145179   55 00000000 011452AA   55
+	011452AA   30 01145179 00000000   30
+	***Total   85
+
+* Free Another node
+>>> FREE SIXTH
+		Combined free amount is 45
+
+* #5 Show the three free nodes and the remaining allocated nodes
+>>> PRTALL
+	Begin Address is 0x1145070
+	Free List Address is 0x11451e7
+	Minimum Amount is 26
+	Address  Mem   Size
+	01145070 Alloc  105 End Size= 105
+			   01145073 F  I  R  S  T     1  0  0  .  .  .  .  .  .  .  .  .  .  .  
+			            46 49 52 53 54 20 31 30 30 00 00 00 00 00 00 00 00 00 00 00 
+			   01145087 thru 011450D6 (4 lines) suppressed - all zero
+			   011450D7 i  .  
+			            69 00 
+	011450D9 Alloc   55 End Size=  55
+			   011450DC S  E  C  O  N  D     5  0  .  .  .  .  .  .  .  .  .  .  .  
+			            53 45 43 4F 4E 44 20 35 30 00 00 00 00 00 00 00 00 00 00 00 
+			   011450F0 thru 01145103 (1 lines) suppressed - all zero
+			   01145104 .  .  .  .  .  .  .  .  .  .  7  .  
+			            00 00 00 00 00 00 00 00 00 00 37 00 
+	01145110 Alloc  105 End Size= 105
+			   01145113 T  H  I  R  D     1  0  0  .  .  .  .  .  .  .  .  .  .  .  
+			            54 48 49 52 44 20 31 30 30 00 00 00 00 00 00 00 00 00 00 00 
+			   01145127 thru 01145176 (4 lines) suppressed - all zero
+			   01145177 i  .  
+			            69 00 
+	01145179 Free    55 End Size=  55
+			   Prev=011451E7,Next=011452AA
+	011451B0 Alloc   55 End Size=  55
+			   011451B3 F  I  F  T  H     5  0  .  .  .  .  .  .  .  .  .  .  .  .  
+			            46 49 46 54 48 20 35 30 00 00 00 00 00 00 00 00 00 00 00 00 
+			   011451C7 thru 011451DA (1 lines) suppressed - all zero
+			   011451DB .  .  .  .  .  .  .  .  .  .  7  .  
+			            00 00 00 00 00 00 00 00 00 00 37 00 
+	011451E7 Free    45 End Size=  45
+			   Prev=00000000,Next=01145179
+	01145214 Alloc  105 End Size= 105
+			   01145217 7  T  H     1  0  0  .  .  .  .  .  .  .  .  .  .  .  .  .  
+			            37 54 48 20 31 30 30 00 00 00 00 00 00 00 00 00 00 00 00 00 
+			   0114522B thru 0114527A (4 lines) suppressed - all zero
+			   0114527B i  .  
+			            69 00 
+	0114527D Alloc   45 End Size=  45
+			   01145280 8  T  H     4  0  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
+			            38 54 48 20 34 30 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+			   01145294 thru 011452A7 (1 lines) suppressed - all zero
+			   011452A8 -  .  
+			            2D 00 
+	011452AA Free    30 End Size=  30
+			   Prev=01145179,Next=00000000
+
+
+>>> PRTFREE
+	Begin Address is 0x1145070
+	Free List Address is 0x11451e7
+	Minimum Amount is 26
+	Address  Size Prev     Next     End Size
+	011451E7   45 00000000 01145179   45
+	01145179   55 011451E7 011452AA   55
+	011452AA   30 01145179 00000000   30
+	***Total  130
+
+* Free the first allocated node and then let's use it to allocate a smaller node 
+>>> FREE FIRST
+		Combined free amount is 105
+
+>>> PRTALL
+	Begin Address is 0x1145070
+	Free List Address is 0x1145070
+	Minimum Amount is 26
+	Address  Mem   Size
+	01145070 Free   105 End Size= 105
+			   Prev=00000000,Next=011451E7
+	011450D9 Alloc   55 End Size=  55
+			   011450DC S  E  C  O  N  D     5  0  .  .  .  .  .  .  .  .  .  .  .  
+			            53 45 43 4F 4E 44 20 35 30 00 00 00 00 00 00 00 00 00 00 00 
+			   011450F0 thru 01145103 (1 lines) suppressed - all zero
+			   01145104 .  .  .  .  .  .  .  .  .  .  7  .  
+			            00 00 00 00 00 00 00 00 00 00 37 00 
+	01145110 Alloc  105 End Size= 105
+			   01145113 T  H  I  R  D     1  0  0  .  .  .  .  .  .  .  .  .  .  .  
+			            54 48 49 52 44 20 31 30 30 00 00 00 00 00 00 00 00 00 00 00 
+			   01145127 thru 01145176 (4 lines) suppressed - all zero
+			   01145177 i  .  
+			            69 00 
+	01145179 Free    55 End Size=  55
+			   Prev=011451E7,Next=011452AA
+	011451B0 Alloc   55 End Size=  55
+			   011451B3 F  I  F  T  H     5  0  .  .  .  .  .  .  .  .  .  .  .  .  
+			            46 49 46 54 48 20 35 30 00 00 00 00 00 00 00 00 00 00 00 00 
+			   011451C7 thru 011451DA (1 lines) suppressed - all zero
+			   011451DB .  .  .  .  .  .  .  .  .  .  7  .  
+			            00 00 00 00 00 00 00 00 00 00 37 00 
+	011451E7 Free    45 End Size=  45
+			   Prev=01145070,Next=01145179
+	01145214 Alloc  105 End Size= 105
+			   01145217 7  T  H     1  0  0  .  .  .  .  .  .  .  .  .  .  .  .  .  
+			            37 54 48 20 31 30 30 00 00 00 00 00 00 00 00 00 00 00 00 00 
+			   0114522B thru 0114527A (4 lines) suppressed - all zero
+			   0114527B i  .  
+			            69 00 
+	0114527D Alloc   45 End Size=  45
+			   01145280 8  T  H     4  0  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
+			            38 54 48 20 34 30 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+			   01145294 thru 011452A7 (1 lines) suppressed - all zero
+			   011452A8 -  .  
+			            2D 00 
+	011452AA Free    30 End Size=  30
+			   Prev=01145179,Next=00000000
+
+
+>>> ALLOC 30 10TH 10TH
+
+* #6 There should now be some free space after "10TH" and before "SECOND"
+>>> PRTALL
+	Begin Address is 0x1145070
+	Free List Address is 0x1145093
+	Minimum Amount is 26
+	Address  Mem   Size
+	01145070 Alloc   35 End Size=  35
+			   01145073 1  0  T  H  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
+			            31 30 54 48 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+			   01145087 .  .  .  .  .  .  .  .  .  .  #  .  
+			            00 00 00 00 00 00 00 00 00 00 23 00 
+	01145093 Free    70 End Size=  70
+			   Prev=00000000,Next=011451E7
+	011450D9 Alloc   55 End Size=  55
+			   011450DC S  E  C  O  N  D     5  0  .  .  .  .  .  .  .  .  .  .  .  
+			            53 45 43 4F 4E 44 20 35 30 00 00 00 00 00 00 00 00 00 00 00 
+			   011450F0 thru 01145103 (1 lines) suppressed - all zero
+			   01145104 .  .  .  .  .  .  .  .  .  .  7  .  
+			            00 00 00 00 00 00 00 00 00 00 37 00 
+	01145110 Alloc  105 End Size= 105
+			   01145113 T  H  I  R  D     1  0  0  .  .  .  .  .  .  .  .  .  .  .  
+			            54 48 49 52 44 20 31 30 30 00 00 00 00 00 00 00 00 00 00 00 
+			   01145127 thru 01145176 (4 lines) suppressed - all zero
+			   01145177 i  .  
+			            69 00 
+	01145179 Free    55 End Size=  55
+			   Prev=011451E7,Next=011452AA
+	011451B0 Alloc   55 End Size=  55
+			   011451B3 F  I  F  T  H     5  0  .  .  .  .  .  .  .  .  .  .  .  .  
+			            46 49 46 54 48 20 35 30 00 00 00 00 00 00 00 00 00 00 00 00 
+			   011451C7 thru 011451DA (1 lines) suppressed - all zero
+			   011451DB .  .  .  .  .  .  .  .  .  .  7  .  
+			            00 00 00 00 00 00 00 00 00 00 37 00 
+	011451E7 Free    45 End Size=  45
+			   Prev=01145093,Next=01145179
+	01145214 Alloc  105 End Size= 105
+			   01145217 7  T  H     1  0  0  .  .  .  .  .  .  .  .  .  .  .  .  .  
+			            37 54 48 20 31 30 30 00 00 00 00 00 00 00 00 00 00 00 00 00 
+			   0114522B thru 0114527A (4 lines) suppressed - all zero
+			   0114527B i  .  
+			            69 00 
+	0114527D Alloc   45 End Size=  45
+			   01145280 8  T  H     4  0  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
+			            38 54 48 20 34 30 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+			   01145294 thru 011452A7 (1 lines) suppressed - all zero
+			   011452A8 -  .  
+			            2D 00 
+	011452AA Free    30 End Size=  30
+			   Prev=01145179,Next=00000000
+
+
+>>> PRTFREE
+	Begin Address is 0x1145070
+	Free List Address is 0x1145093
+	Minimum Amount is 26
+	Address  Size Prev     Next     End Size
+	01145093   70 00000000 011451E7   70
+	011451E7   45 01145093 01145179   45
+	01145179   55 011451E7 011452AA   55
+	011452AA   30 01145179 00000000   30
+	***Total  200
+
+* #7 When we Free 8th, it should get combined with the free space that follows it.
+>>> FREE 8TH
+		Combined free amount is 75
+
+>>> PRTALL
+	Begin Address is 0x1145070
+	Free List Address is 0x114527d
+	Minimum Amount is 26
+	Address  Mem   Size
+	01145070 Alloc   35 End Size=  35
+			   01145073 1  0  T  H  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
+			            31 30 54 48 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+			   01145087 .  .  .  .  .  .  .  .  .  .  #  .  
+			            00 00 00 00 00 00 00 00 00 00 23 00 
+	01145093 Free    70 End Size=  70
+			   Prev=0114527D,Next=011451E7
+	011450D9 Alloc   55 End Size=  55
+			   011450DC S  E  C  O  N  D     5  0  .  .  .  .  .  .  .  .  .  .  .  
+			            53 45 43 4F 4E 44 20 35 30 00 00 00 00 00 00 00 00 00 00 00 
+			   011450F0 thru 01145103 (1 lines) suppressed - all zero
+			   01145104 .  .  .  .  .  .  .  .  .  .  7  .  
+			            00 00 00 00 00 00 00 00 00 00 37 00 
+	01145110 Alloc  105 End Size= 105
+			   01145113 T  H  I  R  D     1  0  0  .  .  .  .  .  .  .  .  .  .  .  
+			            54 48 49 52 44 20 31 30 30 00 00 00 00 00 00 00 00 00 00 00 
+			   01145127 thru 01145176 (4 lines) suppressed - all zero
+			   01145177 i  .  
+			            69 00 
+	01145179 Free    55 End Size=  55
+			   Prev=011451E7,Next=00000000
+	011451B0 Alloc   55 End Size=  55
+			   011451B3 F  I  F  T  H     5  0  .  .  .  .  .  .  .  .  .  .  .  .  
+			            46 49 46 54 48 20 35 30 00 00 00 00 00 00 00 00 00 00 00 00 
+			   011451C7 thru 011451DA (1 lines) suppressed - all zero
+			   011451DB .  .  .  .  .  .  .  .  .  .  7  .  
+			            00 00 00 00 00 00 00 00 00 00 37 00 
+	011451E7 Free    45 End Size=  45
+			   Prev=01145093,Next=01145179
+	01145214 Alloc  105 End Size= 105
+			   01145217 7  T  H     1  0  0  .  .  .  .  .  .  .  .  .  .  .  .  .  
+			            37 54 48 20 31 30 30 00 00 00 00 00 00 00 00 00 00 00 00 00 
+			   0114522B thru 0114527A (4 lines) suppressed - all zero
+			   0114527B i  .  
+			            69 00 
+	0114527D Free    75 End Size=  75
+			   Prev=00000000,Next=01145093
+
+
+>>> PRTFREE
+	Begin Address is 0x1145070
+	Free List Address is 0x114527d
+	Minimum Amount is 26
+	Address  Size Prev     Next     End Size
+	0114527D   75 00000000 01145093   75
+	01145093   70 0114527D 011451E7   70
+	011451E7   45 01145093 01145179   45
+	01145179   55 011451E7 00000000   55
+	***Total  245
+
+* #8 When we Free SECOND, it should get combined with the preceding free space.
+>>> FREE SECOND
+		Combined free amount is 125
+
+>>> PRTALL
+	Begin Address is 0x1145070
+	Free List Address is 0x1145093
+	Minimum Amount is 26
+	Address  Mem   Size
+	01145070 Alloc   35 End Size=  35
+			   01145073 1  0  T  H  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
+			            31 30 54 48 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+			   01145087 .  .  .  .  .  .  .  .  .  .  #  .  
+			            00 00 00 00 00 00 00 00 00 00 23 00 
+	01145093 Free   125 End Size= 125
+			   Prev=00000000,Next=0114527D
+	01145110 Alloc  105 End Size= 105
+			   01145113 T  H  I  R  D     1  0  0  .  .  .  .  .  .  .  .  .  .  .  
+			            54 48 49 52 44 20 31 30 30 00 00 00 00 00 00 00 00 00 00 00 
+			   01145127 thru 01145176 (4 lines) suppressed - all zero
+			   01145177 i  .  
+			            69 00 
+	01145179 Free    55 End Size=  55
+			   Prev=011451E7,Next=00000000
+	011451B0 Alloc   55 End Size=  55
+			   011451B3 F  I  F  T  H     5  0  .  .  .  .  .  .  .  .  .  .  .  .  
+			            46 49 46 54 48 20 35 30 00 00 00 00 00 00 00 00 00 00 00 00 
+			   011451C7 thru 011451DA (1 lines) suppressed - all zero
+			   011451DB .  .  .  .  .  .  .  .  .  .  7  .  
+			            00 00 00 00 00 00 00 00 00 00 37 00 
+	011451E7 Free    45 End Size=  45
+			   Prev=0114527D,Next=01145179
+	01145214 Alloc  105 End Size= 105
+			   01145217 7  T  H     1  0  0  .  .  .  .  .  .  .  .  .  .  .  .  .  
+			            37 54 48 20 31 30 30 00 00 00 00 00 00 00 00 00 00 00 00 00 
+			   0114522B thru 0114527A (4 lines) suppressed - all zero
+			   0114527B i  .  
+			            69 00 
+	0114527D Free    75 End Size=  75
+			   Prev=01145093,Next=011451E7
+
+
+>>> PRTFREE
+	Begin Address is 0x1145070
+	Free List Address is 0x1145093
+	Minimum Amount is 26
+	Address  Size Prev     Next     End Size
+	01145093  125 00000000 0114527D  125
+	0114527D   75 01145093 011451E7   75
+	011451E7   45 0114527D 01145179   45
+	01145179   55 011451E7 00000000   55
+	***Total  300
+
+* #9 When we Free FIFTH, it should get combined with both the preceding and the following
+>>> FREE FIFTH
+		Combined free amount is 155
+
+* There should be 3 allocated and 3 free areas.  The free should be 125, 155, and 75 bytes.
+>>> PRTALL
+	Begin Address is 0x1145070
+	Free List Address is 0x1145179
+	Minimum Amount is 26
+	Address  Mem   Size
+	01145070 Alloc   35 End Size=  35
+			   01145073 1  0  T  H  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
+			            31 30 54 48 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+			   01145087 .  .  .  .  .  .  .  .  .  .  #  .  
+			            00 00 00 00 00 00 00 00 00 00 23 00 
+	01145093 Free   125 End Size= 125
+			   Prev=01145179,Next=0114527D
+	01145110 Alloc  105 End Size= 105
+			   01145113 T  H  I  R  D     1  0  0  .  .  .  .  .  .  .  .  .  .  .  
+			            54 48 49 52 44 20 31 30 30 00 00 00 00 00 00 00 00 00 00 00 
+			   01145127 thru 01145176 (4 lines) suppressed - all zero
+			   01145177 i  .  
+			            69 00 
+	01145179 Free   155 End Size= 155
+			   Prev=00000000,Next=01145093
+	01145214 Alloc  105 End Size= 105
+			   01145217 7  T  H     1  0  0  .  .  .  .  .  .  .  .  .  .  .  .  .  
+			            37 54 48 20 31 30 30 00 00 00 00 00 00 00 00 00 00 00 00 00 
+			   0114522B thru 0114527A (4 lines) suppressed - all zero
+			   0114527B i  .  
+			            69 00 
+	0114527D Free    75 End Size=  75
+			   Prev=01145093,Next=00000000
+
+
+>>> PRTFREE
+	Begin Address is 0x1145070
+	Free List Address is 0x1145179
+	Minimum Amount is 26
+	Address  Size Prev     Next     End Size
+	01145179  155 00000000 01145093  155
+	01145093  125 01145179 0114527D  125
+	0114527D   75 01145093 00000000   75
+	***Total  355
+
+*
+>>> RESET 500
+INITIALIZE:
+                    Heap Size:   500
+            Minimum Node Size:    26
+             Prefix Node Size:     3
+            Tot Overhead Size:     5
+
+>>> PRTALL
+	Begin Address is 0x1145070
+	Free List Address is 0x1145070
+	Minimum Amount is 26
+	Address  Mem   Size
+	01145070 Free   500 End Size= 500
+			   Prev=00000000,Next=00000000
+
+
+* #10 Allocate 4 nodes
+>>> ALLOC 100 P2.ONE ONE 100
+
+>>> ALLOC 100 P2.TWO TWO 100
+
+>>> ALLOC 100 P2.THREE THREE 100
+
+>>> ALLOC 100 P2.FOUR FOUR 100
+
+>>> PRTALL
+	Begin Address is 0x1145070
+	Free List Address is 0x1145214
+	Minimum Amount is 26
+	Address  Mem   Size
+	01145070 Alloc  105 End Size= 105
+			   01145073 O  N  E     1  0  0  .  .  .  .  .  .  .  .  .  .  .  .  .  
+			            4F 4E 45 20 31 30 30 00 00 00 00 00 00 00 00 00 00 00 00 00 
+			   01145087 thru 011450D6 (4 lines) suppressed - all zero
+			   011450D7 i  .  
+			            69 00 
+	011450D9 Alloc  105 End Size= 105
+			   011450DC T  W  O     1  0  0  .  .  .  .  .  .  .  .  .  .  .  .  .  
+			            54 57 4F 20 31 30 30 00 00 00 00 00 00 00 00 00 00 00 00 00 
+			   011450F0 thru 0114513F (4 lines) suppressed - all zero
+			   01145140 i  .  
+			            69 00 
+	01145142 Alloc  105 End Size= 105
+			   01145145 T  H  R  E  E     1  0  0  .  .  .  .  .  .  .  .  .  .  .  
+			            54 48 52 45 45 20 31 30 30 00 00 00 00 00 00 00 00 00 00 00 
+			   01145159 thru 011451A8 (4 lines) suppressed - all zero
+			   011451A9 i  .  
+			            69 00 
+	011451AB Alloc  105 End Size= 105
+			   011451AE F  O  U  R     1  0  0  .  .  .  .  .  .  .  .  .  .  .  .  
+			            46 4F 55 52 20 31 30 30 00 00 00 00 00 00 00 00 00 00 00 00 
+			   011451C2 thru 01145211 (4 lines) suppressed - all zero
+			   01145212 i  .  
+			            69 00 
+	01145214 Free    80 End Size=  80
+			   Prev=00000000,Next=00000000
+
+
+* #11 Free P2.TWO
+>>> FREE P2.TWO
+		Combined free amount is 105
+
+>>> PRTALL
+	Begin Address is 0x1145070
+	Free List Address is 0x11450d9
+	Minimum Amount is 26
+	Address  Mem   Size
+	01145070 Alloc  105 End Size= 105
+			   01145073 O  N  E     1  0  0  .  .  .  .  .  .  .  .  .  .  .  .  .  
+			            4F 4E 45 20 31 30 30 00 00 00 00 00 00 00 00 00 00 00 00 00 
+			   01145087 thru 011450D6 (4 lines) suppressed - all zero
+			   011450D7 i  .  
+			            69 00 
+	011450D9 Free   105 End Size= 105
+			   Prev=00000000,Next=01145214
+	01145142 Alloc  105 End Size= 105
+			   01145145 T  H  R  E  E     1  0  0  .  .  .  .  .  .  .  .  .  .  .  
+			            54 48 52 45 45 20 31 30 30 00 00 00 00 00 00 00 00 00 00 00 
+			   01145159 thru 011451A8 (4 lines) suppressed - all zero
+			   011451A9 i  .  
+			            69 00 
+	011451AB Alloc  105 End Size= 105
+			   011451AE F  O  U  R     1  0  0  .  .  .  .  .  .  .  .  .  .  .  .  
+			            46 4F 55 52 20 31 30 30 00 00 00 00 00 00 00 00 00 00 00 00 
+			   011451C2 thru 01145211 (4 lines) suppressed - all zero
+			   01145212 i  .  
+			            69 00 
+	01145214 Free    80 End Size=  80
+			   Prev=011450D9,Next=00000000
+
+
+>>> PRTFREE
+	Begin Address is 0x1145070
+	Free List Address is 0x11450d9
+	Minimum Amount is 26
+	Address  Size Prev     Next     End Size
+	011450D9  105 00000000 01145214  105
+	01145214   80 011450D9 00000000   80
+	***Total  185
+
+* #12 Allocate something that would leave too small of a FREE area, 
+*     so it increases to a tot of 105
+>>> ALLOC 90 HUNGRY HUNGRY 90
+
+>>> PRTALL
+	Begin Address is 0x1145070
+	Free List Address is 0x1145214
+	Minimum Amount is 26
+	Address  Mem   Size
+	01145070 Alloc  105 End Size= 105
+			   01145073 O  N  E     1  0  0  .  .  .  .  .  .  .  .  .  .  .  .  .  
+			            4F 4E 45 20 31 30 30 00 00 00 00 00 00 00 00 00 00 00 00 00 
+			   01145087 thru 011450D6 (4 lines) suppressed - all zero
+			   011450D7 i  .  
+			            69 00 
+	011450D9 Alloc  105 End Size= 105
+			   011450DC H  U  N  G  R  Y     9  0  .  .  .  .  .  .  .  .  .  .  .  
+			            48 55 4E 47 52 59 20 39 30 00 00 00 00 00 00 00 00 00 00 00 
+			   011450F0 thru 0114513F (4 lines) suppressed - all zero
+			   01145140 i  .  
+			            69 00 
+	01145142 Alloc  105 End Size= 105
+			   01145145 T  H  R  E  E     1  0  0  .  .  .  .  .  .  .  .  .  .  .  
+			            54 48 52 45 45 20 31 30 30 00 00 00 00 00 00 00 00 00 00 00 
+			   01145159 thru 011451A8 (4 lines) suppressed - all zero
+			   011451A9 i  .  
+			            69 00 
+	011451AB Alloc  105 End Size= 105
+			   011451AE F  O  U  R     1  0  0  .  .  .  .  .  .  .  .  .  .  .  .  
+			            46 4F 55 52 20 31 30 30 00 00 00 00 00 00 00 00 00 00 00 00 
+			   011451C2 thru 01145211 (4 lines) suppressed - all zero
+			   01145212 i  .  
+			            69 00 
+	01145214 Free    80 End Size=  80
+			   Prev=00000000,Next=00000000
+
+
+>>> PRTFREE
+	Begin Address is 0x1145070
+	Free List Address is 0x1145214
+	Minimum Amount is 26
+	Address  Size Prev     Next     End Size
+	01145214   80 00000000 00000000   80
+	***Total   80
+
+* #13 Allocate a very small item which should be changed to the minimum size
+>>> ALLOC 6 SMALL SMALL 6
+
+>>> PRTALL
+	Begin Address is 0x1145070
+	Free List Address is 0x114522e
+	Minimum Amount is 26
+	Address  Mem   Size
+	01145070 Alloc  105 End Size= 105
+			   01145073 O  N  E     1  0  0  .  .  .  .  .  .  .  .  .  .  .  .  .  
+			            4F 4E 45 20 31 30 30 00 00 00 00 00 00 00 00 00 00 00 00 00 
+			   01145087 thru 011450D6 (4 lines) suppressed - all zero
+			   011450D7 i  .  
+			            69 00 
+	011450D9 Alloc  105 End Size= 105
+			   011450DC H  U  N  G  R  Y     9  0  .  .  .  .  .  .  .  .  .  .  .  
+			            48 55 4E 47 52 59 20 39 30 00 00 00 00 00 00 00 00 00 00 00 
+			   011450F0 thru 0114513F (4 lines) suppressed - all zero
+			   01145140 i  .  
+			            69 00 
+	01145142 Alloc  105 End Size= 105
+			   01145145 T  H  R  E  E     1  0  0  .  .  .  .  .  .  .  .  .  .  .  
+			            54 48 52 45 45 20 31 30 30 00 00 00 00 00 00 00 00 00 00 00 
+			   01145159 thru 011451A8 (4 lines) suppressed - all zero
+			   011451A9 i  .  
+			            69 00 
+	011451AB Alloc  105 End Size= 105
+			   011451AE F  O  U  R     1  0  0  .  .  .  .  .  .  .  .  .  .  .  .  
+			            46 4F 55 52 20 31 30 30 00 00 00 00 00 00 00 00 00 00 00 00 
+			   011451C2 thru 01145211 (4 lines) suppressed - all zero
+			   01145212 i  .  
+			            69 00 
+	01145214 Alloc   26 End Size=  26
+			   01145217 S  M  A  L  L     .  .  .  .  .  .  .  .  .  .  .  .  .  .  
+			            53 4D 41 4C 4C 20 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+			   0114522B .  .  .  
+			            00 1A 00 
+	0114522E Free    54 End Size=  54
+			   Prev=00000000,Next=00000000
+
+
+>>> PRTFREE
+	Begin Address is 0x1145070
+	Free List Address is 0x114522e
+	Minimum Amount is 26
+	Address  Size Prev     Next     End Size
+	0114522E   54 00000000 00000000   54
+	***Total   54
+
+* #14 Reset the heap again
+>>> RESET 500
+INITIALIZE:
+                    Heap Size:   500
+            Minimum Node Size:    26
+             Prefix Node Size:     3
+            Tot Overhead Size:     5
+
+>>> ALLOC 20  P3.ONE ONE 20
+
+>>> ALLOC 150 P3.TWO TWO 150
+
+>>> ALLOC 20 P3.THREE THREE 20
+
+>>> ALLOC 30 P3.FOUR FOUR 30
+
+>>> ALLOC 80 P3.FIVE FIVE 80
+
+>>> ALLOC 40 P3.SIX SIX 40
+
+>>> ALLOC 100 P3.SEVEN SEVEN 100
+
+>>> PRTALL
+	Begin Address is 0x1145070
+	Free List Address is (nil)
+	Minimum Amount is 26
+	Address  Mem   Size
+	01145070 Alloc   26 End Size=  26
+			   01145073 O  N  E     2  0  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
+			            4F 4E 45 20 32 30 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+			   01145087 .  .  .  
+			            00 1A 00 
+	0114508A Alloc  155 End Size= 155
+			   0114508D T  W  O     1  5  0  .  .  .  .  .  .  .  .  .  .  .  .  .  
+			            54 57 4F 20 31 35 30 00 00 00 00 00 00 00 00 00 00 00 00 00 
+			   011450A1 thru 01145118 (6 lines) suppressed - all zero
+			   01145119 .  .  .  .  .  .  .  .  .  .  .  .  
+			            00 00 00 00 00 00 00 00 00 00 9B 00 
+	01145125 Alloc   26 End Size=  26
+			   01145128 T  H  R  E  E     2  0  .  .  .  .  .  .  .  .  .  .  .  .  
+			            54 48 52 45 45 20 32 30 00 00 00 00 00 00 00 00 00 00 00 00 
+			   0114513C .  .  .  
+			            00 1A 00 
+	0114513F Alloc   35 End Size=  35
+			   01145142 F  O  U  R     3  0  .  .  .  .  .  .  .  .  .  .  .  .  .  
+			            46 4F 55 52 20 33 30 00 00 00 00 00 00 00 00 00 00 00 00 00 
+			   01145156 .  .  .  .  .  .  .  .  .  .  #  .  
+			            00 00 00 00 00 00 00 00 00 00 23 00 
+	01145162 Alloc   85 End Size=  85
+			   01145165 F  I  V  E     8  0  .  .  .  .  .  .  .  .  .  .  .  .  .  
+			            46 49 56 45 20 38 30 00 00 00 00 00 00 00 00 00 00 00 00 00 
+			   01145179 thru 011451B4 (3 lines) suppressed - all zero
+			   011451B5 U  .  
+			            55 00 
+	011451B7 Alloc   45 End Size=  45
+			   011451BA S  I  X     4  0  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
+			            53 49 58 20 34 30 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+			   011451CE thru 011451E1 (1 lines) suppressed - all zero
+			   011451E2 -  .  
+			            2D 00 
+	011451E4 Alloc  128 End Size= 128
+			   011451E7 S  E  V  E  N     1  0  0  .  .  .  .  .  .  .  .  .  .  .  
+			            53 45 56 45 4E 20 31 30 30 00 00 00 00 00 00 00 00 00 00 00 
+			   011451FB thru 0114525E (5 lines) suppressed - all zero
+			   0114525F .  .  .  .  .  
+			            00 00 00 80 00 
+
+
+>>> PRTFREE
+	Begin Address is 0x1145070
+	Free List Address is (nil)
+	Minimum Amount is 26
+	Address  Size Prev     Next     End Size
+	***Total    0
+
+>>> FREE P3.FIVE
+		Combined free amount is 85
+
+>>> FREE P3.THREE
+		Combined free amount is 26
+
+>>> PRTALL
+	Begin Address is 0x1145070
+	Free List Address is 0x1145125
+	Minimum Amount is 26
+	Address  Mem   Size
+	01145070 Alloc   26 End Size=  26
+			   01145073 O  N  E     2  0  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
+			            4F 4E 45 20 32 30 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+			   01145087 .  .  .  
+			            00 1A 00 
+	0114508A Alloc  155 End Size= 155
+			   0114508D T  W  O     1  5  0  .  .  .  .  .  .  .  .  .  .  .  .  .  
+			            54 57 4F 20 31 35 30 00 00 00 00 00 00 00 00 00 00 00 00 00 
+			   011450A1 thru 01145118 (6 lines) suppressed - all zero
+			   01145119 .  .  .  .  .  .  .  .  .  .  .  .  
+			            00 00 00 00 00 00 00 00 00 00 9B 00 
+	01145125 Free    26 End Size=  26
+			   Prev=00000000,Next=01145162
+	0114513F Alloc   35 End Size=  35
+			   01145142 F  O  U  R     3  0  .  .  .  .  .  .  .  .  .  .  .  .  .  
+			            46 4F 55 52 20 33 30 00 00 00 00 00 00 00 00 00 00 00 00 00 
+			   01145156 .  .  .  .  .  .  .  .  .  .  #  .  
+			            00 00 00 00 00 00 00 00 00 00 23 00 
+	01145162 Free    85 End Size=  85
+			   Prev=01145125,Next=00000000
+	011451B7 Alloc   45 End Size=  45
+			   011451BA S  I  X     4  0  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
+			            53 49 58 20 34 30 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+			   011451CE thru 011451E1 (1 lines) suppressed - all zero
+			   011451E2 -  .  
+			            2D 00 
+	011451E4 Alloc  128 End Size= 128
+			   011451E7 S  E  V  E  N     1  0  0  .  .  .  .  .  .  .  .  .  .  .  
+			            53 45 56 45 4E 20 31 30 30 00 00 00 00 00 00 00 00 00 00 00 
+			   011451FB thru 0114525E (5 lines) suppressed - all zero
+			   0114525F .  .  .  .  .  
+			            00 00 00 80 00 
+
+
+>>> PRTFREE
+	Begin Address is 0x1145070
+	Free List Address is 0x1145125
+	Minimum Amount is 26
+	Address  Size Prev     Next     End Size
+	01145125   26 00000000 01145162   26
+	01145162   85 01145125 00000000   85
+	***Total  111
+
+* #15 FITME shouldn't fit in the first free space
+>>> ALLOC 50 P3.FITME FITME 50
+
+>>> PRTALL
+	Begin Address is 0x1145070
+	Free List Address is 0x1145199
+	Minimum Amount is 26
+	Address  Mem   Size
+	01145070 Alloc   26 End Size=  26
+			   01145073 O  N  E     2  0  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
+			            4F 4E 45 20 32 30 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+			   01145087 .  .  .  
+			            00 1A 00 
+	0114508A Alloc  155 End Size= 155
+			   0114508D T  W  O     1  5  0  .  .  .  .  .  .  .  .  .  .  .  .  .  
+			            54 57 4F 20 31 35 30 00 00 00 00 00 00 00 00 00 00 00 00 00 
+			   011450A1 thru 01145118 (6 lines) suppressed - all zero
+			   01145119 .  .  .  .  .  .  .  .  .  .  .  .  
+			            00 00 00 00 00 00 00 00 00 00 9B 00 
+	01145125 Free    26 End Size=  26
+			   Prev=01145199,Next=00000000
+	0114513F Alloc   35 End Size=  35
+			   01145142 F  O  U  R     3  0  .  .  .  .  .  .  .  .  .  .  .  .  .  
+			            46 4F 55 52 20 33 30 00 00 00 00 00 00 00 00 00 00 00 00 00 
+			   01145156 .  .  .  .  .  .  .  .  .  .  #  .  
+			            00 00 00 00 00 00 00 00 00 00 23 00 
+	01145162 Alloc   55 End Size=  55
+			   01145165 F  I  T  M  E     5  0  .  .  .  .  .  .  .  .  .  .  .  .  
+			            46 49 54 4D 45 20 35 30 00 00 00 00 00 00 00 00 00 00 00 00 
+			   01145179 thru 0114518C (1 lines) suppressed - all zero
+			   0114518D .  .  .  .  .  .  .  .  .  .  7  .  
+			            00 00 00 00 00 00 00 00 00 00 37 00 
+	01145199 Free    30 End Size=  30
+			   Prev=00000000,Next=01145125
+	011451B7 Alloc   45 End Size=  45
+			   011451BA S  I  X     4  0  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
+			            53 49 58 20 34 30 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+			   011451CE thru 011451E1 (1 lines) suppressed - all zero
+			   011451E2 -  .  
+			            2D 00 
+	011451E4 Alloc  128 End Size= 128
+			   011451E7 S  E  V  E  N     1  0  0  .  .  .  .  .  .  .  .  .  .  .  
+			            53 45 56 45 4E 20 31 30 30 00 00 00 00 00 00 00 00 00 00 00 
+			   011451FB thru 0114525E (5 lines) suppressed - all zero
+			   0114525F .  .  .  .  .  
+			            00 00 00 80 00 
+
+
+>>> PRTFREE
+	Begin Address is 0x1145070
+	Free List Address is 0x1145199
+	Minimum Amount is 26
+	Address  Size Prev     Next     End Size
+	01145199   30 00000000 01145125   30
+	01145125   26 01145199 00000000   26
+	***Total   56
+
+* The end
+
