@@ -1,0 +1,1 @@
+Heap storage management functions for initializing the heap, allocating nodes, and freeing nodes. Emulates how software would manage storage in the heap.
